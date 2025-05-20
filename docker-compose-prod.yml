@@ -1,0 +1,33 @@
+services:
+  loadbalancer:
+    image: nginx:1.27.5-alpine
+
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+
+  web:
+    build:
+      context: .
+
+    ports:
+      - 8000:8000
+
+  # worker:
+  #   build:
+  #     context: .
+
+  #   command: "uv run celery -A core worker -l INFO"
+
+  #   depends_on:
+  #     - rabbitmq
+
+  # rabbitmq:
+  #   image: rabbitmq:3.13.7-management-alpine
+  #   ports:
+  #     - 5672:5672
+  #     - 15672:15672
+  #   volumes:
+  #     - ./.data/rabbitmq:/var/lib/rabbitmq

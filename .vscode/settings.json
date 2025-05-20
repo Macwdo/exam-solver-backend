@@ -1,0 +1,9 @@
+{
+    "debugpy.debugJustMyCode": false,
+    "editor.formatOnSave": true,
+    "ruff.fixAll": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll.ruff": "always",
+        "source.organizeImports.ruff": "always",
+    },
+}

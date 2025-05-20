@@ -1,0 +1,77 @@
+{
+    "configurations": [
+        {
+            "name": "Run Server 🚀",
+            "type": "debugpy",
+            "request": "launch",
+            "args": [
+                "runserver"
+            ],
+            "django": true,
+            "autoStartBrowser": false,
+            "program": "${workspaceFolder}/manage.py"
+        },
+        {
+            "name": "Run Server Async 🚀",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "uvicorn",
+            "args": [
+                "core.asgi:application",
+                "--host",
+                "0.0.0.0",
+                "--port",
+                "8000",
+                "--reload"
+            ],
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Worker 🐵",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "celery",
+            "args": [
+                "-A",
+                "core",
+                "worker",
+                "--loglevel=info"
+            ],
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Make Migrations 📦",
+            "type": "debugpy",
+            "request": "launch",
+            "args": [
+                "makemigrations"
+            ],
+            "program": "${workspaceFolder}/manage.py"
+        },
+        {
+            "name": "Migrate ✍️",
+            "type": "debugpy",
+            "request": "launch",
+            "args": [
+                "migrate"
+            ],
+            "program": "${workspaceFolder}/manage.py"
+        },
+        {
+            "name": "Create Superuser 🔑",
+            "type": "debugpy",
+            "request": "launch",
+            "args": [
+                "createsuperuser"
+            ],
+            "program": "${workspaceFolder}/manage.py"
+        },
+        {
+            "name": "Structured Script",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "structured_script.py",
+            "console": "integratedTerminal"
+        }
+    ]
+}

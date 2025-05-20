@@ -1,0 +1,100 @@
+[project]
+name = "backend"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "beautifulsoup4>=4.13.4",
+    "celery>=5.5.2",
+    "django>=5.2.1",
+    "django-cors-headers>=4.7.0",
+    "djangorestframework>=3.16.0",
+    "gunicorn>=23.0.0",
+    "langchain>=0.3.25",
+    "langchain-community>=0.3.24",
+    "langchain-ollama>=0.3.2",
+    "langchain-openai>=0.3.16",
+    "lxml>=5.4.0",
+    "openai>=1.78.1",
+    "pydantic>=2.11.4",
+    "retry>=0.9.2",
+    "selenium>=4.32.0",
+    "uvicorn>=0.34.2",
+    "webdriver-manager>=4.0.2",
+]
+
+[dependency-groups]
+dev = ["langchain-ollama>=0.3.2", "ruff>=0.11.9"]
+
+[tool.ruff]
+# Target your Python version
+target-version = "py313"
+
+exclude = [
+    "__pycache__",
+    ".git",
+    ".venv",
+    "build",
+    "dist",
+    # Temporary files
+    "**/tmp_**.py",
+
+    # Ignore test files
+    # "test_**.py",
+    # "tests/",
+    # "tests**.py",
+
+    # Django specific
+    "**/migrations/**",
+    "manage.py",
+]
+include = ["**/*.py", "**/*.pyi"]
+
+# Include all files
+line-length = 131
+
+# Allow autofix on save if using an editor integration
+fix = true
+
+# Enable new formatting rules
+preview = true
+
+
+[tool.ruff.lint]
+# Enable type checking rules
+typing-modules = ["typing", "typing_extensions"]
+
+# Enable all recommended rules
+select = [
+    "E",    # pycodestyle errors
+    "F",    # pyflakes (includes unused imports, variables)
+    "I",    # isort
+    "UP",   # pyupgrade (modernize code based on Python version)
+    "B",    # bugbear (code smell & security)
+    "ARG",  # unused function arguments
+    "TID",  # tidy imports
+    "RUF",  # ruff-specific rules
+    "SIM",  # simplify complex expressions
+    "C4",   # comprehensions
+    "ERA",  # eradicate commented-out code
+    "PIE",  # misc useful rules
+    "PERF", # performance issues
+]
+
+# Disable specific rules
+ignore = ["RUF012", "PLR6301", "ERA001"]
+
+
+[tool.ruff.lint.per-file-ignores]
+# Ignore unused imports in __init__.py
+"__init__.py" = ["F401"]
+
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+docstring-code-format = true
+docstring-code-line-length = "dynamic"

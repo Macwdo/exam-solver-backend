@@ -1,0 +1,8 @@
+services:
+  rbmq:
+    image: rabbitmq:3.13.7-management-alpine
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - ./.data/rbmq:/var/lib/rabbitmq

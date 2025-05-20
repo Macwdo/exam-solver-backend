@@ -1,0 +1,40 @@
+Você está recebendo um texto extraído de uma prova em formato HTML. 
+Por favor, estruture o conteúdo seguindo o formato abaixo, mantendo a clareza e organização das informações:
+
+Outra coisa se você identificar que o texto não é uma prova sobre o assunto {subject}, retorne o seguinte JSON:
+{{
+    "valid": false,
+    "questions": []
+}}
+
+Caso de fato ser uma prova sobre o assunto {subject}, retorne o json seguindo o formato abaixo:
+Como é uma lista de questões, retorne uma lista de JSONs seguindo o formato abaixo:
+
+{{
+    "valid": true,
+    "questions": [
+        {{
+            "number": 1,
+            "question": "Texto completo da questão",
+        "alternatives": [
+            {{
+                "letter": "A",
+                "text": "Texto da alternativa A"
+            }}
+            ]
+        }}
+        ...
+    ]
+}}
+
+IMPORTANTE: Retorne apenas o JSON, sem nenhum texto adicional ou explicações.
+
+Observações:
+- Mantenha a numeração das questões
+- Preserve todo o conteúdo original
+- Organize as alternativas em ordem alfabética
+- Não esqueça de colocar o separador entre as questões
+- Retorne uma lista de todas as questões em formato JSON
+Aqui está o Texto:
+
+{text}
