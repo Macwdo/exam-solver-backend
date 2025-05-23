@@ -10,4 +10,4 @@ echo "Collecting static files..."
 uv run manage.py collectstatic --noinput
 
 echo "Starting server..."
-uv run gunicorn core.wsgi -c gunicorn.py 
+uv run manage.py runserver 0.0.0.0:8000 --insecure

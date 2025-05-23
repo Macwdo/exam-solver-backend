@@ -11,7 +11,7 @@ class GoogleSearchResponse(PydanticBaseModel):
     items: list[GoogleSearchItem]
 
 
-class CustomSearchGoogle:
+class CustomSearchGoogleService:
     def __init__(self):
         self.api_key = settings.GOOGLE_API_KEY
         self.cx = settings.GOOGLE_CX

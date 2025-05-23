@@ -1,3 +1,6 @@
+up-prod:
+	docker compose -f docker-compose-prod.yml up
+
 build:
 	docker build \
 	-t exam-backend \
@@ -12,9 +15,14 @@ run:
 	exam-backend
 
 down:
-	docker compose -f docker-compose-prod.yml down
+	docker compose down
 
 up:
-	docker compose -f docker-compose-prod.yml down
-	docker compose -f docker-compose-prod.yml up
+	docker compose down
+	docker compose up -d
 
+attach:
+	docker exec -it  exam-solver-backend-web sh
+
+createadmin:
+	docker exec -it exam-solver-backend-web sh -c "uv run manage.py createsuperuser --username admin --email admin@admin.com"

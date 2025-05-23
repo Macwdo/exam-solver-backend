@@ -24,8 +24,13 @@ class QuestionsFlow:
     def get_questions(self, file_path: str, exam: Exam):
         from app.services.ai_flows import NotExamException
 
+        logger.info(f"Transforming HTML into text for {exam.name}")
+        logger.info(f"Getting questions for {exam.name}")
         text = self.ai_utils_service.transform_html_into_txt(file_path, 3000, 200)
+
         prompt = self.ai_utils_service.read_file(QuestionsFlow.QUESTIONS_PROMPT)
+
+        logger.info(f"Sending prompt to LLM for {exam.name}")
         result = self.ai_utils_service.send_to_llm(
             prompt,
             text=text,
@@ -34,7 +39,10 @@ class QuestionsFlow:
 
         json_parsed = self.ai_utils_service.parse_json(result)
         question_reponse = QuestionsValidation(**json_parsed)
+        logger.info(f"Questions got for {exam.name}")
+
         if not question_reponse.valid:
+            logger.error(f"Questions are not valid for {exam.name}")
             raise NotExamException
 
         return question_reponse.questions

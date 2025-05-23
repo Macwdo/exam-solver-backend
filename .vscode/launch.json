@@ -35,7 +35,8 @@
                 "-A",
                 "core",
                 "worker",
-                "--loglevel=info"
+                "--loglevel=info",
+                "--concurrency=2"
             ],
             "console": "integratedTerminal"
         },
@@ -70,7 +71,7 @@
             "name": "Structured Script",
             "type": "debugpy",
             "request": "launch",
-            "program": "structured_script.py",
+            "program": "script.py",
             "console": "integratedTerminal"
         }
     ]

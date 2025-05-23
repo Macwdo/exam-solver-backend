@@ -3,13 +3,14 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
 
-from app.views import get_exam, get_exams, upload_document
+from app.views import get_exam, get_exams, get_presigned_url, upload_document
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
-    path("documents/", upload_document, name="create_document"),
-    path("exams/<str:key>/", get_exam, name="get_exam"),
+    path("upload-documents/<int:pk>/", upload_document, name="create_document"),
+    path("get-presigned-url/", get_presigned_url, name="get_presigned_url"),
     path("exams/", get_exams, name="get_exams"),
+    path("exams/<int:pk>/", get_exam, name="get_exam"),
+    path("admin/", admin.site.urls),
 ]
 
 

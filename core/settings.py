@@ -81,13 +81,6 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-STATIC_URL = "/static/"
-STATIC_ROOT = BASE_DIR / "static"
-
-MEDIA_URL = "/media/"
-MEDIA_ROOT = BASE_DIR / "media"
-
 # Logging
 LOGGING = {
     "version": 1,
@@ -118,4 +111,20 @@ GOOGLE_API_KEY = getenv("GOOGLE_API_KEY", "")
 GOOGLE_CX = getenv("GOOGLE_CX", "")
 
 # Celery
-CELERY_BROKER_URL = "amqp://guest:guest@rabbitmq:5672//"
+CELERY_BROKER_URL = getenv("CELERY_BROKER_URL", "")
+
+# Static files (CSS, JavaScript, Images)
+STATIC_URL = "/static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
+
+# AWS
+AWS_ACCESS_KEY_ID = getenv("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = getenv("AWS_SECRET_ACCESS_KEY")
+AWS_STORAGE_BUCKET_NAME = getenv("AWS_STORAGE_BUCKET_NAME")
+AWS_S3_REGION_NAME = getenv("AWS_S3_REGION_NAME")
+AWS_S3_ENDPOINT_URL = getenv("AWS_S3_ENDPOINT_URL")
+AWS_DEFAULT_ACL = getenv("AWS_DEFAULT_ACL")
+AWS_PRESIGNED_EXPIRE = getenv("AWS_PRESIGNED_EXPIRE")

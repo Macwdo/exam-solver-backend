@@ -1,8 +1,44 @@
 services:
-  rbmq:
+  rabbitmq:
     image: rabbitmq:3.13.7-management-alpine
     ports:
-      - "5672:5672"
-      - "15672:15672"
+      - 5672:5672
+      - 15672:15672
+
+    environment:
+      - RABBITMQ_DEFAULT_USER=${BROKER_DEFAULT_USER}
+      - RABBITMQ_DEFAULT_PASS=${BROKER_DEFAULT_PASSWORD}
+
     volumes:
-      - ./.data/rbmq:/var/lib/rabbitmq
+      - ./.data/rabbitmq:/var/lib/rabbitmq
+
+  minio:
+    image: minio/minio:latest
+    container_name: ${APP_NAME}_s3
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+
+    environment:
+      MINIO_ACCESS_KEY: ${AWS_ACCESS_KEY_ID}
+      MINIO_SECRET_KEY: ${AWS_SECRET_ACCESS_KEY}
+      MINIO_DEFAULT_BUCKETS: ${AWS_STORAGE_BUCKET_NAME}
+      MINIO_ROOT_USER: ${AWS_ACCESS_KEY_ID}
+      MINIO_ROOT_PASSWORD: ${AWS_SECRET_ACCESS_KEY}
+
+    command: server /data --address 0.0.0.0:9000 --console-address :9001
+    volumes:
+      - ./.data/minio:/data
+
+  createbucket:
+    container_name: ${APP_NAME}_createbucket
+    image: minio/mc:latest
+    depends_on:
+      - minio
+
+    entrypoint: >
+      sh -c "
+      mc config host add --quiet --api s3v4 minio http://minio:9000 ${AWS_ACCESS_KEY_ID} ${AWS_SECRET_ACCESS_KEY};
+      mc rb --force minio/${AWS_STORAGE_BUCKET_NAME};
+      mc mb --quiet minio/${AWS_STORAGE_BUCKET_NAME};
+      "

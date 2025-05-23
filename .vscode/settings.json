@@ -2,6 +2,7 @@
     "debugpy.debugJustMyCode": false,
     "editor.formatOnSave": true,
     "ruff.fixAll": true,
+    "jupyter.debugJustMyCode": false,
     "editor.codeActionsOnSave": {
         "source.fixAll.ruff": "always",
         "source.organizeImports.ruff": "always",

@@ -4,7 +4,7 @@ from pydantic import BaseModel as PydanticBaseModel
 
 from app.models import Exam
 from app.services.ai_utils import AiUtilsService
-from app.services.google_search import CustomSearchGoogle
+from app.services.google_search import CustomSearchGoogleService
 from app.services.selenium_scrapper import SeleniumScrapperService
 from app.utils import create_temp_file, time_it
 
@@ -24,26 +24,33 @@ class AnswerFlow:
 
     def __init__(self):
         self.ai_utils_service = AiUtilsService()
-        self.google_search = CustomSearchGoogle()
-        self.selenium_scrapper_service = SeleniumScrapperService()
+        self.google_search_service = CustomSearchGoogleService()
 
     @time_it
-    def get_answer_from_internet(self, exam: Exam, question: Exam.StructuredQuestion) -> Exam.StructuredQuestionWithAnswer | str:
+    def get_answer_from_internet(
+        self,
+        exam: Exam,
+        question: Exam.StructuredQuestion,
+        selenium_scrapper_service: SeleniumScrapperService,
+    ) -> Exam.StructuredQuestionWithAnswer | str:
         prompt = self.ai_utils_service.read_file(AnswerFlow.ANSWER_PROMPT)
 
-        search_links = self.google_search.get_search_links(question.question)
+        logger.info(f"Getting search links for {question.question}")
+        search_links = self.google_search_service.get_search_links(question.question)
 
-        self.selenium_scrapper_service.start()
-        for item in search_links.items:
+        first_three_items = search_links.items[:3]
+        for item in first_three_items:
             link = item.link
 
-            html = self.selenium_scrapper_service.get_html(link)
+            logger.info(f"Getting HTML for {link}")
+            html = selenium_scrapper_service.get_html(link)
             chunks = self._get_chunks(html)
-            self.selenium_scrapper_service.stop()
 
             context = ""
             for chunk in chunks:
                 chunk_cleaned_text = self.ai_utils_service.clean_extracted_text(chunk.page_content)
+
+                logger.info(f"Sending prompt to LLM for {link}")
                 result = self.ai_utils_service.send_to_llm(
                     prompt,
                     subject_input=exam.name,
