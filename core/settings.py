@@ -1,4 +1,5 @@
-from os import getenv
+import os
+from os import getenv, path
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -9,7 +10,7 @@ DEBUG = int(getenv("DEBUG", 1)) == 1
 
 ALLOWED_HOSTS = ["*"]
 
-CSRF_TRUSTED_ORIGINS = getenv("CSRF_TRUSTED_ORIGINS", "").split(",")
+CSRF_TRUSTED_ORIGINS = getenv("CSRF_TRUSTED_ORIGINS", "").split(",")[:-1]
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -67,9 +68,14 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "NAME": BASE_DIR / "database/db.sqlite3",
     }
 }
+if path.exists(DATABASES["default"]["NAME"]):
+    DATABASES["default"]["NAME"] = BASE_DIR / "database/db.sqlite3"
+
+else:
+    os.makedirs(DATABASES["default"]["NAME"].parent, exist_ok=True)
 
 
 AUTH_PASSWORD_VALIDATORS = []
