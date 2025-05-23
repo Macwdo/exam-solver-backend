@@ -9,6 +9,7 @@ DEBUG = int(getenv("DEBUG", 1)) == 1
 
 ALLOWED_HOSTS = ["*"]
 
+CSRF_TRUSTED_ORIGINS = getenv("CSRF_TRUSTED_ORIGINS", "").split(",")
 
 INSTALLED_APPS = [
     "django.contrib.admin",
