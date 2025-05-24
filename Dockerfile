@@ -1,10 +1,13 @@
-FROM ghcr.io/astral-sh/uv:python3.12-alpine
+FROM ghcr.io/astral-sh/uv:python3.13-bookworm-slim
 
-ADD . /app
+RUN groupadd -g 999 appgroup && useradd -u 999 -g appgroup -m appuser
+
 WORKDIR /app
 
+ADD . /app
 RUN uv sync
 
-COPY . .
+RUN chown -R appuser:appgroup /app
 
+USER appuser
 CMD ["sh", "./script.sh"]

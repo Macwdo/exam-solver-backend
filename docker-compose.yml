@@ -23,6 +23,9 @@ services:
     volumes:
       - ./.data/redis:/data
 
+    env_file:
+      - .env
+
   minio:
     image: minio/minio:latest
     container_name: ${APP_NAME}_s3
@@ -37,6 +40,9 @@ services:
       MINIO_ROOT_USER: ${AWS_ACCESS_KEY_ID}
       MINIO_ROOT_PASSWORD: ${AWS_SECRET_ACCESS_KEY}
 
+    env_file:
+      - .env
+
     command: server /data --address 0.0.0.0:9000 --console-address :9001
     volumes:
       - ./.data/minio:/data
@@ -46,6 +52,9 @@ services:
     image: minio/mc:latest
     depends_on:
       - minio
+
+    env_file:
+      - .env
 
     entrypoint: >
       sh -c "
