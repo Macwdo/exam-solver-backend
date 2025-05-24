@@ -66,8 +66,8 @@ WSGI_APPLICATION = "core.wsgi.application"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": getenv("DATABASE_NAME", "db.sqlite3"),
+        "ENGINE": getenv("DATABASE_ENGINE", ""),
+        "NAME": getenv("DATABASE_NAME", ""),
         "USER": getenv("DATABASE_USER", ""),
         "PASSWORD": getenv("DATABASE_PASSWORD", ""),
         "HOST": getenv("DATABASE_HOST", ""),
@@ -77,7 +77,6 @@ DATABASES = {
 
 
 AUTH_PASSWORD_VALIDATORS = []
-
 
 # Internationalization
 LANGUAGE_CODE = "en-us"
