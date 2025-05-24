@@ -1,0 +1,14 @@
+FROM ghcr.io/astral-sh/uv:python3.12-alpine
+
+ADD . /app
+WORKDIR /app
+
+RUN uv sync
+
+RUN useradd -ms /bin/bash celery
+
+COPY . .
+
+RUN chown -R celery:celery /app
+
+CMD ["celery", "-A", "core", "worker", "--loglevel=info", "--concurrency=2"]
