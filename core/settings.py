@@ -1,5 +1,4 @@
-import os
-from os import getenv, path
+from os import getenv
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -68,14 +67,13 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "database/db.sqlite3",
+        "NAME": getenv("DATABASE_NAME", "db.sqlite3"),
+        "USER": getenv("DATABASE_USER", ""),
+        "PASSWORD": getenv("DATABASE_PASSWORD", ""),
+        "HOST": getenv("DATABASE_HOST", ""),
+        "PORT": getenv("DATABASE_PORT", ""),
     }
 }
-if path.exists(DATABASES["default"]["NAME"]):
-    DATABASES["default"]["NAME"] = BASE_DIR / "database/db.sqlite3"
-
-else:
-    os.makedirs(DATABASES["default"]["NAME"].parent, exist_ok=True)
 
 
 AUTH_PASSWORD_VALIDATORS = []
