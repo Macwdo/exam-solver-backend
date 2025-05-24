@@ -4,7 +4,6 @@ ADD . /app
 WORKDIR /app
 
 RUN uv sync
-RUN apk add --no-cache su-exec
 
 COPY . .
 
