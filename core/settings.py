@@ -124,11 +124,21 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
-# AWS
-AWS_ACCESS_KEY_ID = getenv("AWS_ACCESS_KEY_ID")
-AWS_SECRET_ACCESS_KEY = getenv("AWS_SECRET_ACCESS_KEY")
-AWS_STORAGE_BUCKET_NAME = getenv("AWS_STORAGE_BUCKET_NAME")
-AWS_S3_REGION_NAME = getenv("AWS_S3_REGION_NAME")
-AWS_S3_ENDPOINT_URL = getenv("AWS_S3_ENDPOINT_URL")
-AWS_DEFAULT_ACL = getenv("AWS_DEFAULT_ACL")
-AWS_PRESIGNED_EXPIRE = getenv("AWS_PRESIGNED_EXPIRE")
+# Sentry
+import sentry_sdk
+
+sentry_sdk.init(
+    dsn=getenv("SENTRY_DSN", ""),
+    # Add data like request headers and IP for users,
+    # see https://docs.sentry.io/platforms/python/data-management/data-collected/ for more info
+    send_default_pii=True,
+    # Set traces_sample_rate to 1.0 to capture 100%
+    # of transactions for tracing.
+    traces_sample_rate=1.0,
+    # Set profile_session_sample_rate to 1.0 to profile 100%
+    # of profile sessions.
+    profile_session_sample_rate=1.0,
+    # Set profile_lifecycle to "trace" to automatically
+    # run the profiler on when there is an active transaction
+    profile_lifecycle="trace",
+)
