@@ -14,7 +14,7 @@ Como é uma lista de questões, retorne uma lista de JSONs seguindo o formato ab
     "valid": true,
     "questions": [
         {{
-            "number": 1,
+            "number": numero da questão // Não esqueça de incluir o número da questão no JSON,
             "question": "Texto completo da questão",
         "alternatives": [
             {{
@@ -35,6 +35,7 @@ Observações:
 - Organize as alternativas em ordem alfabética
 - Não esqueça de colocar o separador entre as questões
 - Retorne uma lista de todas as questões em formato JSON
-Aqui está o Texto:
+- Não esqueça de incluir o número da questão no JSON.
 
+Aqui está o Texto:
 {text}

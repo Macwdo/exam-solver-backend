@@ -13,3 +13,7 @@ class StorageManager:
             os.remove(file_path)
 
         self._tracked_files.clear()
+
+    def write_file(self, file_path: str, file_content: str):
+        with open(file_path, "w") as f:
+            f.write(file_content)

@@ -3,9 +3,27 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-class SeleniumScrapperService:
+class SeleniumScrapperSingleton:
+    _instance = None
+
+    def __new__(cls):
+        if cls._instance is None:
+            cls._instance = super().__new__(cls)
+
+        return cls._instance
+
+    def __init__(self) -> None:
+        if hasattr(self, "initialized"):
+            return
+
+        self.initialized = True
+
+
+class SeleniumScrapperService(SeleniumScrapperSingleton):
     def __init__(self):
-        pass
+        super().__init__()
+        self.driver = self._get_driver()
+        self.options = self._get_options()
 
     def _get_options(self):
         from selenium.webdriver.chrome.options import Options

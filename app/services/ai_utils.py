@@ -44,12 +44,21 @@ class AiUtilsService:
         with open(file_path, "w", encoding="utf-8") as f:
             f.write(content)
 
-    def send_to_llm(self, prompt: str, **prompt_args) -> AIMessage:
+    def send_to_llm(
+        self,
+        prompt: str,
+        model: str = "gpt-4-turbo",
+        llm_params: dict | None = None,
+        **prompt_args,
+    ) -> AIMessage:
         from langchain_core.output_parsers import StrOutputParser
         from langchain_core.prompts import ChatPromptTemplate
         from langchain_openai.chat_models import ChatOpenAI
 
-        llm = ChatOpenAI(model_name="gpt-4-turbo", temperature=0)
+        if llm_params is None:
+            llm_params = {"temperature": 0}
+
+        llm = ChatOpenAI(model_name=model, **llm_params)
         output_parser = StrOutputParser()
         prompt = ChatPromptTemplate.from_template(prompt)
 

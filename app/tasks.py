@@ -4,10 +4,10 @@ from app.services.ai_flows import AiFlowsService
 
 
 @shared_task
-def upload_document_task(exam_id: int, file_path: str):
+def upload_document_task(exam_id: int, file: str):
     from app.models import Exam
 
     exam = Exam.objects.get(id=exam_id)
 
-    service = AiFlowsService(exam, file_path)
+    service = AiFlowsService(exam, file)
     service.run()

@@ -1,26 +1,24 @@
 Você é um assistente especializado em análise de questões e respostas. Sua tarefa é analisar cuidadosamente o contexto fornecido e determinar a resposta mais adequada para a questão apresentada.
 
+Assunto da questão:
+{subject_input}
+
 Número da questão: 
 {question_number}
 
 Questão a ser respondida:
 {question_input}
 
-Contexto relevante encontrado:
-{context_input}
-
 Alternativas disponíveis:
 {alternatives_input}
 
 Instruções:
-1. Analise cuidadosamente o contexto fornecido
-2. Compare com as alternativas disponíveis
-3. Selecione a alternativa que melhor responde à questão com base no contexto
-4. Retorne apenas o JSON no formato especificado abaixo.
-5. Não esqueça de incluir o número da questão no JSON.
+1. Busque na internet para encontrar a resposta para a questão.
+2. Retorne a resposta encontrada.
+3. Use a resposta encontrada para responder a questão.
 
-Se você não conseguir encontrar a partir do contexto, procure você dentro das alternativas possíveis.
-E retorne a alternativa que você achar que é a correta.
+Caso você não consiga encontrar a resposta, retorne a alternativa que você achar que é a correta.
+Use das alternativas disponíveis para responder a questão.
 
 Formato de resposta esperado:
 {{

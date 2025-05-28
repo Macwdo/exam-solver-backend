@@ -68,7 +68,7 @@
             "program": "${workspaceFolder}/manage.py"
         },
         {
-            "name": "Structured Script",
+            "name": "Script 📝",
             "type": "debugpy",
             "request": "launch",
             "program": "script.py",

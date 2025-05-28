@@ -3,9 +3,11 @@ Você é um assistente especializado em analisar questões e encontrar respostas
 Dados fornecidos:
 1. Assunto: {subject_input}
 2. Questão: {question_input}
-3. Alternativas: {alternatives_input}
-4. Contexto anterior: {context_input}
-5. Documento HTML: {document_input}
+3. Número da questão: {question_number}
+4. Alternativas: {alternatives_input}
+5. Contexto anterior: {context_input}
+6. Documento HTML: {document_input}
+
 
 Sua tarefa:
 1. Analisar cuidadosamente o documento HTML e o contexto fornecido
@@ -21,6 +23,7 @@ Se encontrar a resposta:
         "letter": "A",
         "text": "Alternativa A"
     }},
+    "question_number": 1, // Não esqueça de incluir o número da questão no JSON,
     "context": "Contexto detalhado que fundamenta a resposta, incluindo citações relevantes do documento",
     "accuracy": 80
 }}
@@ -31,6 +34,7 @@ Se não encontrar a resposta:
     "found": false,
     "answer": null,
     "context": "Contexto atualizado com informações relevantes encontradas no documento",
+    "question_number": 1, // Não esqueça de incluir o número da questão no JSON,
     "accuracy": 0
 }}
 
@@ -42,3 +46,4 @@ Regras importantes:
 5. Inclua citações específicas do documento quando relevante
 6. A letra da resposta deve ser baseada nas alternativas fornecidas.
 7. A precisão da resposta deve ser calculada com base no contexto fornecido.
+8. Não esqueça de incluir o número da questão no JSON.

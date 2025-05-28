@@ -5,6 +5,7 @@ from pydantic import BaseModel as PydanticBaseModel
 from app.models import Exam
 from app.services.ai_utils import AiUtilsService
 from app.utils import time_it
+from core import constants
 
 logger = logging.getLogger(__name__)
 
@@ -33,6 +34,7 @@ class QuestionsFlow:
         logger.info(f"Sending prompt to LLM for {exam.name}")
         result = self.ai_utils_service.send_to_llm(
             prompt,
+            constants.GPT_4_1_MINI,
             text=text,
             subject=exam.name,
         )
