@@ -21,15 +21,7 @@ class AnswerResponse(PydanticBaseModel):
 
 class AnswerFlow:
     def __init__(self):
-        self.answer_from_selenium_flow = AnswerFromSeleniumFlow()
-        self.answer_from_context_flow = AnswerFromContextFlow()
         self.answer_from_gpt_search_model_flow = AnswerFromGptSearchModelFlow()
-
-    def get_answer_from_selenium(self, exam: Exam, question: Exam.StructuredQuestion):
-        return self.answer_from_selenium_flow.get_answer_from_selenium(exam, question)
-
-    def get_answer_from_context(self, context: str, question: Exam.StructuredQuestion):
-        return self.answer_from_context_flow.get_answer_from_context(context, question)
 
     def get_answer_from_gpt_search_model(self, exam: Exam, question: Exam.StructuredQuestion):
         return self.answer_from_gpt_search_model_flow.get_answer_from_gpt_search_model(exam, question)

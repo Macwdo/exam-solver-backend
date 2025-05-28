@@ -5,7 +5,6 @@ from app.models import Exam
 from app.services.ai_utils import AiUtilsService
 from app.services.answer_flow import AnswerFlow
 from app.services.questions_flow import QuestionsFlow
-from app.services.selenium_scrapper import SeleniumScrapperService
 from app.services.storage import StorageManager
 
 logger = logging.getLogger(__name__)
@@ -76,7 +75,6 @@ class AiFlowsService:
         logger.info(f"Getting answers for {self.exam.name}")
 
         answers = []
-        selenium_scrapper_service = SeleniumScrapperService()
         for index, question in enumerate(questions, 1):
             answer = self._answer_flow.get_answer_from_gpt_search_model(self.exam, question)
 
@@ -85,13 +83,5 @@ class AiFlowsService:
 
                 answers.append(answer)
 
-            elif isinstance(answer, str):
-                logger.info(f"Answer not found for question {index}")
-
-                answer = self._answer_flow.get_answer_from_context(answer, question)
-                answers.append(answer)
-
-        selenium_scrapper_service.stop()
         logger.info(f"Got {len(answers)} answers for {self.exam.name}")
-
         return answers
