@@ -41,4 +41,18 @@ Formato de resposta esperado:
     }}
 }}
 
+Caso não consiga encontrar a resposta, retorne o seguinte JSON:
+{{
+    "number": 1,
+    "question": "Questão",
+    "alternatives": [
+        {{
+            "letter": "A",
+            "text": "Alternativa A"
+        }},
+        ...
+    ],
+    "answer": null
+}}
+
 Retorne apenas o JSON, sem texto adicional.

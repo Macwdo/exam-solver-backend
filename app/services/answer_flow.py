@@ -1,6 +1,8 @@
+import json
 import logging
 
 from pydantic import BaseModel as PydanticBaseModel
+from retry import retry
 
 from app.models import Exam
 from app.services.ai_utils import AiUtilsService
@@ -24,6 +26,9 @@ class AnswerFlow:
         self.answer_from_gpt_search_model_flow = AnswerFromGptSearchModelFlow()
 
     def get_answer_from_gpt_search_model(self, exam: Exam, question: Exam.StructuredQuestion):
+        return self.answer_from_gpt_search_model_flow.get_answer_from_gpt_search_model(exam, question)
+
+    def get_answer_from_gpt(self, exam: Exam, question: Exam.StructuredQuestion):
         return self.answer_from_gpt_search_model_flow.get_answer_from_gpt_search_model(exam, question)
 
 
@@ -97,13 +102,14 @@ class AnswerFromContextFlow:
         self.ai_utils_service = AiUtilsService()
 
     @time_it
-    def get_answer_from_context(self, context: str, question: Exam.StructuredQuestion):
+    @retry(exceptions=[json.JSONDecodeError], tries=3, delay=2)
+    def get_answer_from_gpt(self, exam: Exam, question: Exam.StructuredQuestion):
         prompt = self.ai_utils_service.read_file(AnswerFromContextFlow.ANSWER_FROM_CONTEXT_PROMPT)
         result = self.ai_utils_service.send_to_llm(
             prompt,
             constants.GPT_4_1,
+            subject_input=exam.name,
             question_input=question.question,
-            context_input=context,
             question_number=question.number,
             alternatives_input=question.alternatives,
         )
@@ -121,6 +127,7 @@ class AnswerFromGptSearchModelFlow:
         self.ai_utils_service = AiUtilsService()
 
     @time_it
+    @retry(exceptions=[json.JSONDecodeError], tries=3, delay=2)
     def get_answer_from_gpt_search_model(self, exam: Exam, question: Exam.StructuredQuestion):
         prompt = self.ai_utils_service.read_file(AnswerFromGptSearchModelFlow.ANSWER_FROM_GPT_SEARCH_MODEL_PROMPT)
         result = self.ai_utils_service.send_to_llm(
@@ -134,6 +141,9 @@ class AnswerFromGptSearchModelFlow:
         )
 
         json_parsed = self.ai_utils_service.parse_json(result)
-        answer_response = Exam.StructuredQuestionWithAnswer(**json_parsed)
 
+        if json_parsed["answer"] is None:
+            return None
+
+        answer_response = Exam.StructuredQuestionWithAnswer(**json_parsed)
         return answer_response

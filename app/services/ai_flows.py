@@ -47,13 +47,14 @@ class AiFlowsService:
             exam.answer = [answer.model_dump() for answer in answers]
             exam.save()
 
-        except NotExamException:
+        except NotExamException as e:
             logger.info(f"Document {self.file} is not an exam")
+            logger.exception(f"Error running exam {self.file}: {e}")
             exam.status = Exam.Status.FAILED
             exam.save()
 
         except Exception as e:
-            logger.error(f"Error running exam {self.file}: {e}")
+            logger.exception(f"Error running exam {self.file}: {e}")
             exam.status = Exam.Status.FAILED
             exam.save()
 
@@ -80,8 +81,14 @@ class AiFlowsService:
 
             if isinstance(answer, Exam.StructuredQuestionWithAnswer):
                 logger.info(f"Answer found for question {index}")
-
                 answers.append(answer)
+
+            if answer is None:
+                answer = self._answer_flow.get_answer_from_gpt(self.exam, question)
+
+                if isinstance(answer, Exam.StructuredQuestionWithAnswer):
+                    logger.info(f"Answer found for question {index}")
+                    answers.append(answer)
 
         logger.info(f"Got {len(answers)} answers for {self.exam.name}")
         return answers
