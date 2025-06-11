@@ -8,6 +8,7 @@ class ExamAdmin(admin.ModelAdmin):
     list_display = (
         "id",
         "name",
+        "label",
         "status",
         "is_blocked",
         "by_pass_is_blocked",

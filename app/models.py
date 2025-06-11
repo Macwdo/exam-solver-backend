@@ -33,6 +33,7 @@ class Exam(BaseModel):
         answer: Exam.Alternative | None
 
     name = models.CharField(max_length=255)
+    label = models.CharField(max_length=255, null=True, blank=True)
     answer = models.JSONField(null=True, blank=True)
     status = models.CharField(max_length=20, choices=Status.choices, default=Status.NOT_STARTED)
     date = models.DateTimeField(null=True, blank=True)

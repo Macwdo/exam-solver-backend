@@ -13,6 +13,7 @@ class ExamSerializer(serializers.ModelSerializer):
         fields = [
             "id",
             "name",
+            "label",
             "status",
             "answer",
             "date",
