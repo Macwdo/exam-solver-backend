@@ -37,6 +37,7 @@ class AiFlowsService:
 
         try:
             exam.status = Exam.Status.PROCESSING
+            exam.input_document = self.file
             exam.save()
 
             questions = self.get_questions()

@@ -37,6 +37,7 @@ class Exam(BaseModel):
     status = models.CharField(max_length=20, choices=Status.choices, default=Status.NOT_STARTED)
     date = models.DateTimeField(null=True, blank=True)
     by_pass_is_blocked = models.BooleanField(default=False)
+    input_document = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return f"Exam(id={self.id}, name={self.name})"
