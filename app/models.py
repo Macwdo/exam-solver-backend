@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from django.db import models
+from django.utils import timezone
 from pydantic import BaseModel as PydanticBaseModel
 
 
@@ -34,6 +35,18 @@ class Exam(BaseModel):
     name = models.CharField(max_length=255)
     answer = models.JSONField(null=True, blank=True)
     status = models.CharField(max_length=20, choices=Status.choices, default=Status.NOT_STARTED)
+    date = models.DateTimeField(null=True, blank=True)
+    by_pass_is_blocked = models.BooleanField(default=False)
 
     def __str__(self):
         return f"Exam(id={self.id}, name={self.name})"
+
+    @property
+    def is_blocked(self):
+        if not self.date:
+            return False
+
+        if self.by_pass_is_blocked:
+            return False
+
+        return timezone.now() < self.date

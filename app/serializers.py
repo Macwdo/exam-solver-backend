@@ -10,4 +10,11 @@ class CreateDocumentRequest(serializers.Serializer):
 class ExamSerializer(serializers.ModelSerializer):
     class Meta:
         model = Exam
-        fields = ["id", "name", "status", "answer"]
+        fields = [
+            "id",
+            "name",
+            "status",
+            "answer",
+            "date",
+            "is_blocked",
+        ]

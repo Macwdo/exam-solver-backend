@@ -142,6 +142,7 @@ class AnswerFromGptSearchModelFlow:
 
         json_parsed = self.ai_utils_service.parse_json(result)
 
+        # TODO: test it
         if json_parsed["answer"] is None:
             return None
 

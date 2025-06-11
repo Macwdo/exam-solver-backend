@@ -30,10 +30,9 @@ class AiFlowsService:
 
         logger.info(f"Running exam {exam.name}")
 
-        should_fetch_responses = exam.status in [Exam.Status.COMPLETED, Exam.Status.PROCESSING]
-        if should_fetch_responses:
-            logger.info(f"Exam {exam.name} already has answers")
-            logger.info(f"Finished exam {exam.name}")
+        is_invalid_status = exam.status in [Exam.Status.COMPLETED, Exam.Status.PROCESSING]
+        if is_invalid_status or exam.is_blocked:
+            logger.info(f"Could not fetch responses for exam {exam.name}")
             return
 
         try:
